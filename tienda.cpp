@@ -157,7 +157,7 @@ void Tienda::on_cmdAgregar_clicked()
                 QString ds=ui->outDetalle->item(x,2)->text();
                 float value = ds.toFloat();
 
-                ui->outDetalle->item(x,2)->setText(QString::number(subtotal+value));
+                ui->outDetalle->item(x,2)->setText(QString::number(subtotal+value,'f',2));
 
                 ui->inCantidad->setValue(0);
                 ui->inProducto->setFocus();
