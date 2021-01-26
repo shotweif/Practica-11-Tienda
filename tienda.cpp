@@ -7,6 +7,8 @@
 #include <QMessageBox>
 #include <QDir>
 #include <QDebug>
+#include <cstdlib>
+
 
 Tienda::Tienda(QWidget *parent)
     : QMainWindow(parent)
@@ -145,15 +147,26 @@ void Tienda::on_cmdAgregar_clicked()
     // Agregar a la tabla
     int posicion = ui->outDetalle->rowCount();
 
+
+
+    if(posicion !=0){
+        for(int x=0;x<posicion;x++) {
+            if(p->nombre() == ui->outDetalle->item(x,1)->text()){
+                ui->outDetalle->item(x,1)->text();
+
+                QString ds=ui->outDetalle->item(x,2)->text();
+                float value = ds.toFloat();
+
+                ui->outDetalle->item(x,2)->setText(QString::number(subtotal+value));
+
+                ui->inCantidad->setValue(0);
+                ui->inProducto->setFocus();
+                calcular(subtotal);
+                return;
+            }
+        }
+    }
     ui->outDetalle->insertRow(posicion);
-
-    //for(int x=0;x<posicion;x++) {
-        //if(ui->outDetalle->x() == p->nombre()){
-            //qDebug() << ui->outDetalle->x();
-        //}
-    //}
-
-
     ui->outDetalle->setItem(posicion,0,new QTableWidgetItem(QString::number(cantidad)));
     ui->outDetalle->setItem(posicion,1,new QTableWidgetItem(p->nombre()));
     ui->outDetalle->setItem(posicion,2,new QTableWidgetItem(QString::number(subtotal,'f',2)));
@@ -183,8 +196,8 @@ void Tienda::on_cmdFinalizar_clicked()
 
     for (int x=0;x<posicion;x++) {
         DateFact += ui->outDetalle->item(x,0)->text()+"\t"+
-                ui->outDetalle->item(x,1)->text()+"\t"+
-                ui->outDetalle->item(x,2)->text()+"\n";
+                    ui->outDetalle->item(x,1)->text()+"\t"+
+                    ui->outDetalle->item(x,2)->text()+"\n";
     }
         QString direccion = ui->inDirection->toPlainText();
         QString Datos = "\nCI: " + ui->inCedula->text()+
